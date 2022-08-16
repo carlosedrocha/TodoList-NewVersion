@@ -1,44 +1,105 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react'
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+import { URL } from '../src/api/index.js';
+
+import Axios from 'axios';
+
+import './index.css'
+import './components/style.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [todos, setTodos] = useState([]);
+  const [filterType, setFilterType] = useState({
+    all: true,
+    active: false,
+    completed: false
+  })
+
+
+  useEffect(() => {
+    Axios.get(URL).then((res) => {
+      setTodos(res.data);
+    })
+      .catch((err) => { console.log(err) });
+  }, [filterType]);
+
+  //ACIMA
+
+  const getAllCompleted = () => {
+
+    Axios.get(`${URL}/completed`)
+      .then((res) => {
+        console.log("chamado")
+
+        setTodos(res.data);
+      })
+      .catch((err) => { console.log(err) });
+
+  };
+
+  const deleteTodo = (todo) => {
+    Axios.delete(`${URL}/${todo.id}`)
+      .then(() => {
+        setTodos(
+          todos.filter(item => {
+            return item.id != todo.id;
+          })
+        )
+      })
+      .catch(err => { console.log(err) });
+  };
+
+  const updateTodo = (todo) => {
+
+    Axios.put(URL, {
+      id: todo.id,
+      title: todo.title,
+      done: todo.done
+    }).then(() => { })
+      .catch(err => { console.log(err) });
+
+    // setTodos([todo, ...todos]);
+  };
+
+  const addTodo = (todo) => {
+    Axios.post(`${URL}`, {
+      title: todo.title,
+      done: 0
+    })
+      .then(res => { })
+      .catch(err => { console.log(err) });
+
+    //
+    setTodos([todo, ...todos]);
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <section className="todoapp">
+      <TodoForm
+        addTodo={addTodo}
+        todos={todos}
+      />
+      <TodoList
+        todos={todos}
+        updateTodo={updateTodo}
+        setTodos={setTodos}
+        deleteTodo={deleteTodo}
+        setFilterType={setFilterType}
+
+
+      />
+
+      <Footer
+        todos={todos}
+        getAllCompleted={getAllCompleted}
+        setFilterType={setFilterType}
+        filterType={filterType}
+      />
+
+    </section>
   )
 }
 
