@@ -12,6 +12,9 @@ import './components/style.css'
 function App() {
 
   const [todos, setTodos] = useState([]);
+  const [toggle, setToggle] = useState(false);
+
+
   const [filterType, setFilterType] = useState({
     all: true,
     active: false,
@@ -24,7 +27,7 @@ function App() {
       setTodos(res.data);
     })
       .catch((err) => { console.log(err) });
-  }, [filterType]);
+  }, []);
 
   //ACIMA
 
@@ -37,6 +40,29 @@ function App() {
         setTodos(res.data);
       })
       .catch((err) => { console.log(err) });
+
+  };
+
+  const toggleAllCompleted = () => {
+
+    todos.map((todo) => {
+      Axios.put(URL, {
+        id: todo.id,
+        title: todo.title,
+        done: toggle === true ? 1 : 0
+      }).then(() => {
+        setTodos(
+          todos.map(item => {
+            return {
+              id: item.id,
+              title: item.title,
+              done: toggle === true ? 1 : 0
+            }
+          })
+        )
+      })
+        .catch(err => { console.log(err) });
+    })
 
   };
 
@@ -58,7 +84,18 @@ function App() {
       id: todo.id,
       title: todo.title,
       done: todo.done
-    }).then(() => { })
+    }).then(() => {
+      // console.log(typeof todo.id)
+      setTodos(
+        todos.map(item => {
+          return item.id == todo.id ? {
+            id: todo.id,
+            title: todo.title,
+            done: todo.done
+          } : item
+        })
+      )
+    })
       .catch(err => { console.log(err) });
 
     // setTodos([todo, ...todos]);
@@ -88,6 +125,9 @@ function App() {
         setTodos={setTodos}
         deleteTodo={deleteTodo}
         setFilterType={setFilterType}
+        toggle={toggle}
+        setToggle={setToggle}
+        toggleAllCompleted={toggleAllCompleted}
 
 
       />

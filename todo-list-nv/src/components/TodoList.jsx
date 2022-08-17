@@ -1,7 +1,17 @@
 import React from 'react';
+import { useState } from 'react';
 import Todo from './TodoListItem';
 
-const TodoList = ({ todos, updateTodo, setTodos, deleteTodo }) => {
+const TodoList = ({ todos, updateTodo, setTodos, deleteTodo, toggle, setToggle, toggleAllCompleted }) => {
+
+    const handleToggleAllCompleted = () => {
+        if (toggle === false) {
+            setToggle(true);
+        } else {
+            setToggle(false);
+        }
+        toggleAllCompleted(toggle);
+    };
 
     return (
         <section className='main'>
@@ -10,7 +20,10 @@ const TodoList = ({ todos, updateTodo, setTodos, deleteTodo }) => {
                 className='toggle-all'
                 type="checkbox"
             />
-            <label htmlFor='toggle-all' />
+            <label
+                htmlFor='toggle-all'
+                onClick={handleToggleAllCompleted}
+            />
 
             <ul className="todo-list">
                 {todos.length > 0 && todos.map(todo =>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Todo = ({ todo, updateTodo, setTodos, todos, deleteTodo }) => {
 
@@ -21,16 +21,6 @@ const Todo = ({ todo, updateTodo, setTodos, todos, deleteTodo }) => {
             done: !todo.done,
         })
         updateTodo(editTodo)
-
-        setTodos(
-            todos.map(item => {
-                return item.id == todo.id ? {
-                    id: todo.id,
-                    title: todo.title,
-                    done: todo.done
-                } : item;
-            })
-        )
     };
 
     const handleDeleteAction = (e) => {
@@ -43,13 +33,14 @@ const Todo = ({ todo, updateTodo, setTodos, todos, deleteTodo }) => {
     };
 
     const handleTitleChange = (e) => {
+        const isEditingReturn = (todo.isEditing === 1 ? 0 : 1);
         setEditTodo({
             id: todo.id,
             title: e.target.value,
-            done: !todo.done,
-            isEditing: 1
+            done: todo.done,
+            isEditing: isEditingReturn
         })
-
+        updateTodo(editTodo)
     };
 
     return (

@@ -4,6 +4,7 @@ import { useState } from 'react';
 function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
 
     const isPlural = todos.length > 1 ? "items" : "item";
+
     const [editFilterType, setEditFilterType] = useState({
         all: filterType.all,
         active: filterType.active,
@@ -53,6 +54,7 @@ function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
                         href="/"
                         className=""
                         onClick={() => { }}
+
                     >
                         All
                     </a>
