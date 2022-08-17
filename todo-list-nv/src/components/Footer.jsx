@@ -1,42 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
 
-function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
+function Footer({ todos, updateFilter, filterType }) {
 
     const isPlural = todos.length > 1 ? "items" : "item";
 
-    const [editFilterType, setEditFilterType] = useState({
-        all: filterType.all,
-        active: filterType.active,
-        completed: filterType.completed,
-    });
-
-    // const changeFilter = (option) => {
-    //     if (option === "all") {
-    //         setEditFilterType({
-    //             all: true,
-    //             active: false,
-    //             completed: false
-    //         })
-    //     }
-    //     else if (option === "active") {
-    //         setEditFilterType({
-    //             all: false,
-    //             active: true,
-    //             completed: false
-    //         })
-    //     }
-    //     else if (option === "completed") {
-    //         setEditFilterType({
-    //             all: false,
-    //             active: false,
-    //             completed: true
-    //         })
-    //     }
-
-    //     return setFilterType(editFilterType)
-    // }
-
+    const handleFilterUpdate = (option) => {
+        updateFilter(option);
+        console.log(option)
+    }
 
     return (
         <footer className='footer'>
@@ -49,38 +21,36 @@ function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
             </span>
 
             <ul className="filters" >
-                <li>
+                <li >
                     <a
                         href="/"
-                        className=""
-                        onClick={() => { }}
-
+                        className={`${filterType.all === true ? 'selected' : ''}`}
+                        onClick={handleFilterUpdate("all")}
                     >
                         All
                     </a>
                 </li>
                 <span> </span>
-                <li>
+                <li >
                     <a
                         href="/active"
-                        className=""
-                        onClick={() => { }}
+                        className={`${filterType.active === true ? 'selected' : ''}`}
+                        onClick={handleFilterUpdate("active")}
                     >
                         Active
                     </a>
                 </li>
                 <span> </span>
-                <li>
+                <li >
                     <a
                         href="/completed"
-                        className=""
-                        onClick={() => { }}
+                        className={`${filterType.completed === true ? 'selected' : ''}`}
+                        onClick={handleFilterUpdate("completed")}
                     >
                         Completed
                     </a>
                 </li>
             </ul>
-
         </footer>
     )
 }

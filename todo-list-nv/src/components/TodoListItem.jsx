@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-const Todo = ({ todo, updateTodo, setTodos, todos, deleteTodo }) => {
+const Todo = ({ todo, updateTodo, deleteTodo }) => {
 
     const [editTodo, setEditTodo] = useState({
         id: todo.id,

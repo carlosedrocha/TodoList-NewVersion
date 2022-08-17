@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import Todo from './TodoListItem';
 
-const TodoList = ({ todos, updateTodo, setTodos, deleteTodo, toggle, setToggle, toggleAllCompleted }) => {
+const TodoList = ({ todos, updateTodo, deleteTodo, toggle, setToggle, toggleAllCompleted, filterType }) => {
 
     const handleToggleAllCompleted = () => {
         if (toggle === false) {
@@ -12,6 +12,17 @@ const TodoList = ({ todos, updateTodo, setTodos, deleteTodo, toggle, setToggle, 
         }
         toggleAllCompleted(toggle);
     };
+
+    // const filterVerification = (todo) => {
+    //     if (filterType.active === true) return (todo.done == false);
+    //     if (filterType.completed === true) return (`todo.done == true`);
+    // };
+
+    // let r = filterVerification();
+    // console.log(r);
+
+    // console.log(filterType.active === true)
+    // console.log(filterType)
 
     return (
         <section className='main'>
@@ -26,16 +37,48 @@ const TodoList = ({ todos, updateTodo, setTodos, deleteTodo, toggle, setToggle, 
             />
 
             <ul className="todo-list">
-                {todos.length > 0 && todos.map(todo =>
-                    <Todo
-                        todo={todo}
-                        key={todo.id}
-                        updateTodo={updateTodo}
-                        onDoubleClick={() => { }}
-                        setTodos={setTodos}
-                        todos={todos}
-                        deleteTodo={deleteTodo}
-                    />
+                {todos.length > 0 && todos.map(todo => {
+
+                    //CONDICAO PARA FILTRAGEM
+                    if (filterType.active === true && todo.done === 0) {
+                        return (
+                            <Todo
+                                todo={todo}
+                                key={todo.id}
+                                updateTodo={updateTodo}
+                                onDoubleClick={() => { }}
+                                deleteTodo={deleteTodo}
+                            />
+                        )
+                    }
+                    //CONDICAO PARA FILTRAGEM
+                    if (filterType.completed === true && todo.done === 1) {
+                        return (
+                            <Todo
+                                todo={todo}
+                                key={todo.id}
+                                updateTodo={updateTodo}
+                                onDoubleClick={() => { }}
+                                deleteTodo={deleteTodo}
+                            />
+                        )
+                    }
+
+                    //CONDICAO PARA FILTRAGEM
+                    if (filterType.all === true) {
+                        return (
+                            <Todo
+                                todo={todo}
+                                key={todo.id}
+                                updateTodo={updateTodo}
+                                onDoubleClick={() => { }}
+                                deleteTodo={deleteTodo}
+                            />
+                        )
+                    }
+
+
+                }
                 )}
             </ul>
 

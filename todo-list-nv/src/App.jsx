@@ -13,14 +13,32 @@ function App() {
 
   const [todos, setTodos] = useState([]);
   const [toggle, setToggle] = useState(false);
-
-
   const [filterType, setFilterType] = useState({
-    all: true,
+    all: false,
     active: false,
     completed: false
   })
 
+
+  const updateFilter = (option) => {
+    useEffect(() => {
+      if (option == "active") setFilterType({
+        all: false,
+        active: true,
+        completed: false
+      });
+      else if (option == "completed") setFilterType({
+        all: false,
+        active: false,
+        completed: true
+      });
+      else setFilterType({
+        all: true,
+        active: false,
+        completed: false
+      });
+    }, []);
+  }
 
   useEffect(() => {
     Axios.get(URL).then((res) => {
@@ -30,18 +48,6 @@ function App() {
   }, []);
 
   //ACIMA
-
-  const getAllCompleted = () => {
-
-    Axios.get(`${URL}/completed`)
-      .then((res) => {
-        console.log("chamado")
-
-        setTodos(res.data);
-      })
-      .catch((err) => { console.log(err) });
-
-  };
 
   const toggleAllCompleted = () => {
 
@@ -124,7 +130,7 @@ function App() {
         updateTodo={updateTodo}
         setTodos={setTodos}
         deleteTodo={deleteTodo}
-        setFilterType={setFilterType}
+        filterType={filterType}
         toggle={toggle}
         setToggle={setToggle}
         toggleAllCompleted={toggleAllCompleted}
@@ -134,9 +140,8 @@ function App() {
 
       <Footer
         todos={todos}
-        getAllCompleted={getAllCompleted}
-        setFilterType={setFilterType}
         filterType={filterType}
+        updateFilter={updateFilter}
       />
 
     </section>
