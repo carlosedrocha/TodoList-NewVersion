@@ -14,31 +14,10 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [filterType, setFilterType] = useState({
-    all: false,
+    all: true,
     active: false,
     completed: false
   })
-
-
-  const updateFilter = (option) => {
-    useEffect(() => {
-      if (option == "active") setFilterType({
-        all: false,
-        active: true,
-        completed: false
-      });
-      else if (option == "completed") setFilterType({
-        all: false,
-        active: false,
-        completed: true
-      });
-      else setFilterType({
-        all: true,
-        active: false,
-        completed: false
-      });
-    }, []);
-  }
 
   useEffect(() => {
     Axios.get(URL).then((res) => {
@@ -48,9 +27,12 @@ function App() {
   }, []);
 
   //ACIMA
+  const updateFilter = (filter) => {
+    setFilterType(filter);
+    console.log(filter)
+  }
 
   const toggleAllCompleted = () => {
-
     todos.map((todo) => {
       Axios.put(URL, {
         id: todo.id,
@@ -134,7 +116,6 @@ function App() {
         toggle={toggle}
         setToggle={setToggle}
         toggleAllCompleted={toggleAllCompleted}
-
 
       />
 

@@ -1,13 +1,42 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState } from "react";
 
-function Footer({ todos, updateFilter, filterType }) {
+function Footer({ todos, filterType, updateFilter }) {
 
     const isPlural = todos.length > 1 ? "items" : "item";
+    const [editFilter, setEditFilter] = useState({
+        all: filterType.all,
+        active: filterType.active,
+        completed: filterType.completed,
+
+    });
 
     const handleFilterUpdate = (option) => {
-        updateFilter(option);
-        console.log(option)
+        if (option === "active") {
+            setEditFilter({
+                all: false,
+                active: true,
+                completed: false
+            });
+        }
+        else if (option === "completed") {
+            setEditFilter({
+                all: false,
+                active: false,
+                completed: true
+            });
+        }
+        else if (option === "all") {
+            setEditFilter({
+                all: true,
+                active: false,
+                completed: false
+            });
+        };
+
+        // console.log("filterType", filterType)
+        // console.log(option)
+        updateFilter(editFilter);
     }
 
     return (
@@ -25,7 +54,7 @@ function Footer({ todos, updateFilter, filterType }) {
                     <a
                         href="/"
                         className={`${filterType.all === true ? 'selected' : ''}`}
-                        onClick={handleFilterUpdate("all")}
+                        onClick={(e) => e.preventDefault() + handleFilterUpdate("all")}
                     >
                         All
                     </a>
@@ -35,7 +64,7 @@ function Footer({ todos, updateFilter, filterType }) {
                     <a
                         href="/active"
                         className={`${filterType.active === true ? 'selected' : ''}`}
-                        onClick={handleFilterUpdate("active")}
+                        onClick={(e) => e.preventDefault() + handleFilterUpdate("active")}
                     >
                         Active
                     </a>
@@ -45,7 +74,7 @@ function Footer({ todos, updateFilter, filterType }) {
                     <a
                         href="/completed"
                         className={`${filterType.completed === true ? 'selected' : ''}`}
-                        onClick={handleFilterUpdate("completed")}
+                        onClick={(e) => e.preventDefault() + handleFilterUpdate("completed")}
                     >
                         Completed
                     </a>

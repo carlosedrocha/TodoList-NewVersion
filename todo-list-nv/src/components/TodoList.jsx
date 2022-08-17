@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import Todo from './TodoListItem';
 
 const TodoList = ({ todos, updateTodo, deleteTodo, toggle, setToggle, toggleAllCompleted, filterType }) => {
@@ -12,18 +11,6 @@ const TodoList = ({ todos, updateTodo, deleteTodo, toggle, setToggle, toggleAllC
         }
         toggleAllCompleted(toggle);
     };
-
-    // const filterVerification = (todo) => {
-    //     if (filterType.active === true) return (todo.done == false);
-    //     if (filterType.completed === true) return (`todo.done == true`);
-    // };
-
-    // let r = filterVerification();
-    // console.log(r);
-
-    // console.log(filterType.active === true)
-    // console.log(filterType)
-
     return (
         <section className='main'>
             <input
@@ -77,11 +64,9 @@ const TodoList = ({ todos, updateTodo, deleteTodo, toggle, setToggle, toggleAllC
                         )
                     }
 
-
                 }
                 )}
             </ul>
-
         </section>
     )
 };
