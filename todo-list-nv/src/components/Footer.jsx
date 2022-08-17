@@ -52,7 +52,7 @@ function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
                     <a
                         href="/"
                         className=""
-                        onClick={changeFilter("all")}
+                        onClick={() => { }}
                     >
                         All
                     </a>
@@ -62,7 +62,7 @@ function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
                     <a
                         href="/active"
                         className=""
-                        onClick={changeFilter("active")}
+                        onClick={() => { }}
                     >
                         Active
                     </a>
@@ -72,7 +72,7 @@ function Footer({ todos, getAllCompleted, setFilterType, filterType }) {
                     <a
                         href="/completed"
                         className=""
-                        onClick={changeFilter("completed")}
+                        onClick={() => { }}
                     >
                         Completed
                     </a>
