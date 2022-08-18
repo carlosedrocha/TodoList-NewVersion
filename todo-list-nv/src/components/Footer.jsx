@@ -81,6 +81,7 @@ function Footer({ todos, filterType, updateFilter }) {
                 </li>
             </ul>
         </footer>
+
     )
 }
 

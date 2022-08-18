@@ -3,6 +3,8 @@ import Todo from './TodoListItem';
 
 const TodoList = ({ todos, updateTodo, deleteTodo, toggle, setToggle, toggleAllCompleted, filterType }) => {
 
+    // const [editingId, setEditingId] = useState(null)
+
     const handleToggleAllCompleted = () => {
         if (toggle === false) {
             setToggle(true);
@@ -35,6 +37,8 @@ const TodoList = ({ todos, updateTodo, deleteTodo, toggle, setToggle, toggleAllC
                                 updateTodo={updateTodo}
                                 onDoubleClick={() => { }}
                                 deleteTodo={deleteTodo}
+                            // isEditing={isEditing === todo.id}
+                            // setEditingId={setEditingId}
                             />
                         )
                     }

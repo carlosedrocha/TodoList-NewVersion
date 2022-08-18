@@ -10,9 +10,7 @@ const Todo = ({ todo, updateTodo, deleteTodo }) => {
         isEditing: 0
     });
 
-    // useEffect(() => {
-    //     console.log('test')
-    // }, [setEditTodo])
+    const [newTaskTitle, setNewTaskTitle] = useState(editTodo.title);
 
     const handleChange = (e) => {
         setEditTodo({
@@ -32,19 +30,37 @@ const Todo = ({ todo, updateTodo, deleteTodo }) => {
         deleteTodo(todo)
     };
 
-    const handleTitleChange = (e) => {
-        const isEditingReturn = (todo.isEditing === 1 ? 0 : 1);
+    const handleTitleChange = () => {
         setEditTodo({
             id: todo.id,
-            title: e.target.value,
+            title: newTaskTitle ? newTaskTitle : todo.title,
             done: todo.done,
-            isEditing: isEditingReturn
-        })
-        updateTodo(editTodo)
+            isEditing: editTodo.isEditing === 1 ? 0 : 1,
+        });
     };
 
+    const changeTodoTitle = (e) => {
+        setNewTaskTitle(e.target.value);
+    };
+
+    const onEnterPressed = (e) => {
+        const enterCode = 13;
+        const escCode = 27;
+        if (e.keyCode === enterCode) {
+            setEditTodo({
+                id: todo.id,
+                done: todo.done,
+                title: newTaskTitle
+            });
+            console.log(newTaskTitle, editTodo.title)
+            updateTodo(editTodo);
+        }
+        // if (e.keyCode === escCode) {
+        //     setEditTodo({ title: todo.title });
+        // }
+    }
     return (
-        <li className={`${todo.done === 1 ? "completed" : ""}` + `${todo.isEditing === 1 ? "editing" : ""}`} key={todo.id}>
+        <li className={`${todo.done === 1 ? "completed" : ""}` + `${editTodo.isEditing === 1 ? "editing" : ""}`} key={todo.id}>
             <div className="view">
                 <input
                     className="toggle"
@@ -62,6 +78,19 @@ const Todo = ({ todo, updateTodo, deleteTodo }) => {
                     onClick={handleDeleteAction}
                 />
             </div>
+            {editTodo.isEditing == 1 &&
+                (
+                    <input
+                        className="edit"
+                        value={newTaskTitle}
+                        onChange={changeTodoTitle}
+                        onKeyDown={onEnterPressed}
+                        autoFocus
+                        name="title"
+                        type="text"
+                    />
+                )
+            }
         </li>
     )
 }
